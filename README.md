@@ -1,35 +1,36 @@
-# HR Manager Action Portal v2
+# HR Action Hub
 
-Single-file GitHub Pages prototype combining the stronger engineering approach from the Claude version with the stronger UX/dashboard features from the Gemini version.
+A single-file GitHub Pages prototype for manager and HR employee development/performance case management.
 
-## Features
-- Manager and HR sign-in with demo PINs
-- Manager case submission and editing
-- HR case review and status updates
-- Dashboard KPI cards
-- Status and category visual summaries
-- Search and multi-filter case queue
-- Follow-up date and HR notes
-- Case activity/audit trail
+## V3 interface
+- Logistics-tech inspired red / charcoal / white visual system
+- Manager and HR sign-in
+- KPI dashboard
+- Case status workflow
+- Search and filters
+- Manager case submission/editing
+- HR review, follow-up date and official notes
+- Activity/audit trail
 - CSV export
 - JSON backup
-- Responsive desktop/mobile UI
-- No build process required
+- Responsive mobile/desktop UI
+- No external UI framework or asset dependency
 
 ## Demo access
-- Manager: Sarah Jenkins / `1234`
-- Manager: David Ross / `1234`
-- HR: HR Administrator / `9999`
+- Sarah Jenkins (Manager) — `1234`
+- David Ross (Manager) — `1234`
+- HR Administrator (HR) — `9999`
 
-## Deploy to GitHub Pages
-1. Create a new repository.
-2. Rename `HR_Manager_Action_Portal_v2.html` to `index.html`.
-3. Put `index.html` in the repository root.
-4. Commit and push.
-5. GitHub → Settings → Pages → Deploy from a branch.
-6. Select the main branch and `/root`.
+## GitHub Pages
+Keep exactly these files in the repository root:
 
-## Important
-This version stores data in browser localStorage. Different users/devices do not share the same cases. The PINs are client-side demo controls, not production authentication. Do not use confidential employee data for the static prototype.
+    index.html
+    README.md
 
-For production, connect the UI to a proper backend/database and authentication layer such as Supabase, Firebase, or a company API.
+Then enable:
+Settings → Pages → Deploy from a branch → `main` → `/ (root)`.
+
+## Important limitation
+This is a static prototype. Cases are stored in the browser's localStorage, so different devices/users do not share the same database. The PINs are client-side demo controls and are not production authentication.
+
+For real HR use, connect the UI to a proper backend/database and authentication layer.

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="HR Manager Action Portal - Employee Development & Performance Case Management">
-<title>HR Manager Action Portal</title>
+<meta name="description" content="HR Action Hub - Employee Development & Performance Operations">
+<title>HR Action Hub | People Operations</title>
 <style>
 :root{
   --navy:#0f172a;--navy2:#172554;--blue:#2563eb;--blue2:#1d4ed8;--sky:#eff6ff;
@@ -29,6 +29,49 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .modal{position:fixed;inset:0;background:rgba(15,23,42,.58);display:grid;place-items:center;padding:18px;z-index:50}.modal-box{width:min(780px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.25)}.modal-head{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{font-size:16px;margin:0}.modal-body{padding:20px}.modal-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}.close{border:0;background:#f1f5f9;width:32px;height:32px;border-radius:9px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.form-group.full{grid-column:1/-1}.form-group input,.form-group select,.form-group textarea{width:100%}.form-group textarea{resize:vertical;min-height:110px}.required{color:#dc2626}.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.info{background:#f8fafc;border:1px solid var(--line);padding:11px;border-radius:11px}.info span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;font-weight:800;margin-bottom:4px}.info strong{font-size:12px}.audit{background:#0f172a;color:#cbd5e1;border-radius:12px;padding:12px;font:10px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;max-height:170px;overflow:auto}.note{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;padding:11px;border-radius:11px;font-size:10px;margin-bottom:14px}.footer{padding:25px;text-align:center;color:#94a3b8;font-size:10px}
 .toast{position:fixed;right:20px;bottom:20px;z-index:100;background:#0f172a;color:#fff;padding:12px 15px;border-radius:11px;font-size:12px;font-weight:700;box-shadow:var(--shadow);animation:toast .2s ease-out}.toast.success{background:#047857}.toast.error{background:#b91c1c}@keyframes toast{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(max-width:1000px){.kpis{grid-template-columns:repeat(3,1fr)}.grid2{grid-template-columns:1fr}}@media(max-width:680px){.container{padding:15px}.topbar{padding:0 15px}.hero{align-items:flex-start;flex-direction:column}.kpis{grid-template-columns:repeat(2,1fr)}.form-grid,.info-grid{grid-template-columns:1fr}.form-group.full{grid-column:auto}.userbar .pill:first-child{display:none}.brand small{display:none}}
+
+/* =========================================================
+   V3 VISUAL SYSTEM — logistics-tech / Ninja-inspired
+   Uses original UI styling; no third-party logos or assets.
+   ========================================================= */
+:root{
+  --navy:#151515;--navy2:#242424;--blue:#ef233c;--blue2:#c9152d;--sky:#fff1f3;
+  --bg:#f5f5f5;--card:#ffffff;--text:#171717;--muted:#737373;--line:#e5e5e5;
+  --green:#15803d;--green-bg:#f0fdf4;--amber:#d97706;--amber-bg:#fffbeb;
+  --red:#ef233c;--red-bg:#fff1f2;--purple:#6d28d9;
+  --shadow:0 7px 24px rgba(0,0,0,.06);--radius:14px;
+}
+body{background:#f3f3f3;color:#171717}
+.topbar{height:72px;background:#151515;border-bottom:4px solid #ef233c;padding:0 30px}
+.brandmark{background:#ef233c;color:#fff;border-radius:10px;width:42px;height:42px;font-size:12px;letter-spacing:.5px}
+.brand{letter-spacing:.2px}.brand small{color:#a3a3a3}
+.userbar .pill{border-color:#3f3f46;background:#242424;color:#f5f5f5}
+.hero{background:linear-gradient(120deg,#171717 0%,#272727 68%,#3a1519 100%);border-radius:14px;border-left:5px solid #ef233c;padding:24px 26px}
+.hero h1{font-size:24px;letter-spacing:-.3px}.hero p{color:#d4d4d4}
+.btn{border-radius:9px}.btn-primary{background:#ef233c}.btn-primary:hover{background:#c9152d}
+.btn-light{color:#171717}.btn-outline:hover{border-color:#ef233c;color:#c9152d}
+.kpi{border-radius:13px;box-shadow:0 4px 16px rgba(0,0,0,.045);position:relative;overflow:hidden}
+.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#e5e5e5}
+.kpi:nth-child(2):before{background:#f59e0b}.kpi:nth-child(3):before{background:#7c3aed}
+.kpi:nth-child(4):before{background:#16a34a}.kpi:nth-child(5):before{background:#ef233c}
+.kpi-icon{background:#fff1f3;color:#ef233c}.kpi-value{font-size:29px}
+.card{border-radius:14px}.card-head{background:#fff}.card-head h3{font-weight:850}
+.toolbar{background:#fafafa}.field,.search{border-radius:9px}
+.field:focus,.search:focus{border-color:#ef233c;box-shadow:0 0 0 3px #ffe1e5}
+.table th{background:#171717;color:#d4d4d4}.table tr:hover td{background:#fffafa}
+.case-id{color:#c9152d}.badge{font-weight:850}
+.login-screen{background:radial-gradient(circle at 85% 10%,#ffe4e8,#f5f5f5 44%)}
+.login-card{border-top:5px solid #ef233c;border-radius:17px}
+.login-logo{background:#151515;border-radius:12px}
+.login-card .btn-primary{background:#ef233c}
+.note{background:#fff5f6;border-color:#fecdd3;color:#9f1239}
+.modal-box{border-radius:16px;border-top:4px solid #ef233c}
+.modal-head{background:#fafafa}
+.audit{background:#171717}
+.footer{background:#171717;color:#a3a3a3;margin-top:25px}
+.footer:before{content:"HR ACTION HUB  •  PEOPLE OPERATIONS";display:block;color:#ef233c;font-weight:850;letter-spacing:.08em;margin-bottom:5px}
+@media(max-width:680px){.topbar{height:64px;border-bottom-width:3px}.hero{border-left-width:4px}}
+
 </style>
 </head>
 <body>
@@ -50,7 +93,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
    ========================================================= */
 
 const CONFIG = {
-  organisation: "HR Manager Action Portal",
+  organisation: "HR Action Hub",
   storageKey: "hr_manager_action_portal_v2",
   sessionKey: "hr_manager_action_session_v2",
   demoData: true,
@@ -137,7 +180,7 @@ function kpiCounts(){
 function loginView(){
   $("root").innerHTML=`<div class="login-screen"><div class="login-card">
     <div class="login-logo">HR</div><h1>${esc(CONFIG.organisation)}</h1>
-    <p>Employee development, performance and HR action case management.</p>
+    <p>People operations · Employee development · Performance case management</p>
     <div class="login-field"><label>USER</label><select id="loginUser">${CONFIG.users.map(u=>`<option value="${u.id}">${esc(u.name)} — ${u.role==="hr"?"HR":"Manager"}</option>`).join("")}</select></div>
     <div class="login-field"><label>PIN</label><input id="loginPin" type="password" maxlength="8" placeholder="Enter PIN" onkeydown="if(event.key==='Enter')login()"></div>
     <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="login()">Sign In</button>
@@ -153,11 +196,11 @@ function login(){
 function shell(){
   const c=kpiCounts();
   $("root").innerHTML=`<div class="app">
-    <header class="topbar"><div class="brand"><div class="brandmark">HR</div><div>${esc(CONFIG.organisation)}<small>Employee Case Management</small></div></div>
+    <header class="topbar"><div class="brand"><div class="brandmark">NV</div><div><strong>HR ACTION HUB</strong><small>People Operations · Case Management</small></div></div>
     <div class="userbar"><span class="pill">${isHR()?"HR CONTROL CENTER":"MANAGER WORKSPACE"}</span><span class="pill">${esc(currentUser.name)}</span><button class="btn btn-light" onclick="logout()">Sign Out</button></div></header>
     <main class="container">
-      <section class="hero"><div><h1>${isHR()?"Enterprise Employee Case Management":"Employee Development & Action Submissions"}</h1><p>${isHR()?"Review manager submissions, update case status, document HR actions and track resolution.":"Submit employee development or performance cases and monitor their progress."}</p></div>
-      <div class="hero-actions">${!isHR()?`<button class="btn btn-light" onclick="openCaseModal()">＋ New Case</button>`:`<button class="btn btn-light" onclick="openCaseModal()">＋ New Case</button>`}<button class="btn btn-outline" onclick="exportCSV()">Export CSV</button><button class="btn btn-outline" onclick="backupJSON()">Backup JSON</button></div></section>
+      <section class="hero"><div><h1>${isHR()?"People Operations Control Center":"Employee Development & Action Hub"}</h1><p>${isHR()?"Review submissions, manage HR actions, document decisions and track case resolution.":"Raise employee development or performance cases and track every step from submission to closure."}</p></div>
+      <div class="hero-actions">${!isHR()?`<button class="btn btn-light" onclick="openCaseModal()">＋ Submit New Case</button>`:`<button class="btn btn-light" onclick="openCaseModal()">＋ Submit New Case</button>`}<button class="btn btn-outline" onclick="exportCSV()">Export CSV</button><button class="btn btn-outline" onclick="backupJSON()">Backup JSON</button></div></section>
       <section class="kpis">
         ${kpi("Total Cases",c.total,"▦")}${kpi("Pending Review",c.pending,"◷")}${kpi("In Progress",c.progress,"↗")}${kpi("Completed",c.complete,"✓")}${kpi("High Priority",c.high,"!")}
       </section>
@@ -237,6 +280,18 @@ function submitCase(){
     state.cases.push(c);save();closeModal();state.activeTab="My cases";renderContent();toast(`${c.id} submitted successfully`,"success");
   }
 }
+
+function statusTimeline(current){
+  const steps=["Pending Review","Under HR Review","Action In Progress","Resolved / Completed"];
+  const idx=steps.indexOf(current);
+  return `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:16px 0 4px">
+    ${steps.map((s,i)=>`<div style="text-align:center">
+      <div style="height:6px;border-radius:20px;background:${i<=idx?"#ef233c":"#e5e5e5"}"></div>
+      <div style="font-size:9px;font-weight:800;color:${i<=idx?"#c9152d":"#737373"};margin-top:6px">${esc(s.replace("Resolved / ",""))}</div>
+    </div>`).join("")}
+  </div>`;
+}
+
 function openReview(id){
   const c=state.cases.find(x=>x.id===id);if(!c)return;
   editingCaseId=id;
@@ -246,6 +301,7 @@ function openReview(id){
   <div class="modal-body">
     <div class="info-grid"><div class="info"><span>Employee</span><strong>${esc(c.employeeName)}</strong></div><div class="info"><span>Employee ID</span><strong>${esc(c.employeeId)}</strong></div><div class="info"><span>Department</span><strong>${esc(c.department)}</strong></div><div class="info"><span>Manager</span><strong>${esc(c.manager)}</strong></div><div class="info"><span>Category</span><strong>${esc(c.category)}</strong></div><div class="info"><span>Urgency</span><strong>${badge(c.urgency)}</strong></div></div>
     <div style="margin-top:16px"><label class="form-group label">Recommended Action</label><div class="info"><strong>${esc(c.action)}</strong></div></div>
+    <div style="margin-top:12px">${statusTimeline(c.status)}</div>
     <div style="margin-top:12px"><label class="form-group label">Manager Justification</label><div class="info" style="font-size:12px;line-height:1.6">${esc(c.justification)}</div></div>
     <div class="form-grid" style="margin-top:16px">
       <div class="form-group"><label>HR Status</label><select id="reviewStatus" class="field" ${canEdit?"":"disabled"}>${CONFIG.statuses.map(x=>`<option ${x===c.status?"selected":""}>${esc(x)}</option>`).join("")}</select></div>
