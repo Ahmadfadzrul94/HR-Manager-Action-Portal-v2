@@ -72,10 +72,78 @@ body{background:#f3f3f3;color:#171717}
 .footer:before{content:"HR ACTION HUB  •  PEOPLE OPERATIONS";display:block;color:#ef233c;font-weight:850;letter-spacing:.08em;margin-bottom:5px}
 @media(max-width:680px){.topbar{height:64px;border-bottom-width:3px}.hero{border-left-width:4px}}
 
+
+/* =========================================================
+   HR ASSIST — AI-STYLE FAQ / GUIDE CHAT
+   Static-safe: no API key is stored in the browser.
+   ========================================================= */
+.hr-assist-launch{
+  position:fixed;right:22px;bottom:22px;z-index:80;
+  width:58px;height:58px;border:0;border-radius:18px;
+  background:#ef233c;color:#fff;box-shadow:0 12px 30px rgba(239,35,60,.35);
+  font-weight:900;font-size:12px;cursor:pointer;transition:.2s;
+}
+.hr-assist-launch:hover{transform:translateY(-3px) scale(1.03);background:#c9152d}
+.hr-assist-launch span{display:block;font-size:8px;letter-spacing:.08em;margin-top:2px}
+.hr-assist-panel{
+  position:fixed;right:22px;bottom:92px;z-index:79;
+  width:min(390px,calc(100vw - 30px));height:min(590px,calc(100vh - 125px));
+  background:#fff;border:1px solid #e5e5e5;border-radius:20px;
+  box-shadow:0 25px 70px rgba(0,0,0,.22);overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.hr-assist-head{
+  background:linear-gradient(135deg,#151515,#2b2b2b);
+  color:#fff;padding:15px 16px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:3px solid #ef233c;
+}
+.hr-assist-title{display:flex;align-items:center;gap:10px}
+.hr-assist-avatar{width:35px;height:35px;border-radius:11px;background:#ef233c;display:grid;place-items:center;font-size:11px;font-weight:900}
+.hr-assist-head strong{font-size:13px}.hr-assist-head small{display:block;color:#a3a3a3;font-size:9px;margin-top:2px}
+.hr-assist-close{border:0;background:#333;color:#fff;width:30px;height:30px;border-radius:8px}
+.hr-assist-body{flex:1;overflow:auto;padding:14px;background:#f7f7f7}
+.hr-msg{max-width:88%;margin-bottom:10px;padding:10px 12px;border-radius:13px;font-size:11px;line-height:1.55}
+.hr-msg.ai{background:#fff;border:1px solid #e5e5e5;border-top-left-radius:5px;color:#262626}
+.hr-msg.user{margin-left:auto;background:#ef233c;color:#fff;border-top-right-radius:5px}
+.hr-msg .hr-msg-label{display:block;font-size:8px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;opacity:.62;margin-bottom:4px}
+.hr-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin:5px 0 12px}
+.hr-suggestion{border:1px solid #fecdd3;background:#fff5f6;color:#9f1239;border-radius:999px;padding:7px 9px;font-size:9px;font-weight:800;cursor:pointer}
+.hr-suggestion:hover{background:#ffe4e6}
+.hr-assist-input{display:flex;gap:7px;padding:10px;border-top:1px solid #e5e5e5;background:#fff}
+.hr-assist-input input{flex:1;border:1px solid #d4d4d4;border-radius:10px;padding:10px;font-size:11px;outline:none}
+.hr-assist-input input:focus{border-color:#ef233c;box-shadow:0 0 0 3px #ffe1e5}
+.hr-assist-send{width:40px;border:0;border-radius:10px;background:#ef233c;color:#fff;font-weight:900}
+.hr-assist-disclaimer{font-size:8px;color:#a3a3a3;text-align:center;padding:5px 10px;background:#fff}
+@media(max-width:680px){
+  .hr-assist-launch{right:14px;bottom:14px}
+  .hr-assist-panel{right:10px;bottom:82px;width:calc(100vw - 20px);height:min(570px,calc(100vh - 105px))}
+}
+
 </style>
 </head>
 <body>
 <div id="root"></div>
+
+<!-- HR ASSIST -->
+<button id="hrAssistLaunch" class="hr-assist-launch" onclick="toggleHRAssist()" aria-label="Open HR Assist">
+  <div>AI</div><span>HR ASSIST</span>
+</button>
+<section id="hrAssistPanel" class="hr-assist-panel" style="display:none" aria-label="HR Assist">
+  <div class="hr-assist-head">
+    <div class="hr-assist-title">
+      <div class="hr-assist-avatar">AI</div>
+      <div><strong>HR Assist</strong><small>FAQ & Portal Guide</small></div>
+    </div>
+    <button class="hr-assist-close" onclick="toggleHRAssist()">×</button>
+  </div>
+  <div id="hrAssistBody" class="hr-assist-body"></div>
+  <div class="hr-assist-disclaimer">For portal guidance only. HR policy decisions remain with authorised HR personnel.</div>
+  <form id="hrAssistForm" class="hr-assist-input">
+    <input id="hrAssistInput" autocomplete="off" placeholder="Ask about the portal or process..." />
+    <button class="hr-assist-send" type="submit">➤</button>
+  </form>
+</section>
+
 <div id="toastRoot"></div>
 
 <script>
@@ -92,7 +160,7 @@ body{background:#f3f3f3;color:#171717}
      Supabase/Firebase and real authentication.
    ========================================================= */
 
-const CONFIG = {
+// Optional future secure backend: connect AI through a server/API proxy. Never place an AI API key in this file.\nconst CONFIG = {
   organisation: "HR Action Hub",
   storageKey: "hr_manager_action_portal_v2",
   sessionKey: "hr_manager_action_session_v2",
@@ -351,6 +419,156 @@ function render(){
 
 /* Keyboard escape closes modal */
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+
+
+/* =========================================================
+   HR ASSIST ENGINE
+   ---------------------------------------------------------
+   This static GitHub Pages edition uses a controlled FAQ/
+   guidance knowledge base. A secure backend AI endpoint can
+   be connected later without changing the chat UI.
+   ========================================================= */
+const HR_ASSIST_FAQ = [
+  {
+    keys:["submit","new case","create case","raise case","how do i submit"],
+    answer:"To submit a case, click <b>Submit New Case</b>. Complete Employee Name, Employee ID, Department, Category, Recommended Action, Urgency and Manager Justification, then submit. The case starts at <b>Pending Review</b>."
+  },
+  {
+    keys:["justification","comment","comments","what should i write","manager comments"],
+    answer:"Keep the justification factual and specific: describe the issue, relevant examples or dates, previous coaching/actions taken, impact, and why the recommended action is appropriate. Avoid unnecessary personal or sensitive information."
+  },
+  {
+    keys:["pending","pending review","status pending"],
+    answer:"<b>Pending Review</b> means the manager has submitted the case and HR has not completed the initial review yet."
+  },
+  {
+    keys:["under hr review","hr review","review"],
+    answer:"<b>Under HR Review</b> means HR is actively assessing the submitted case and determining the appropriate next step."
+  },
+  {
+    keys:["in progress","action in progress","action"],
+    answer:"<b>Action In Progress</b> means the agreed HR/manager action is being carried out. The case can include HR notes and a follow-up target date."
+  },
+  {
+    keys:["completed","resolved","close case"],
+    answer:"<b>Resolved / Completed</b> means the recorded HR action has been completed or the case has reached its documented closure point."
+  },
+  {
+    keys:["pip","performance improvement plan"],
+    answer:"A PIP is an appropriate formal performance-management route when the situation requires clearly documented expectations, measurable improvement areas, support and a review period. Follow your organisation's HR policy and approval process before using it."
+  },
+  {
+    keys:["high priority","high urgency","urgent"],
+    answer:"Use <b>High</b> urgency when the matter requires prompt HR attention based on your organisation's process. Urgency does not by itself determine the final HR action."
+  },
+  {
+    keys:["my cases","check case","track case","submitted cases"],
+    answer:"Managers can use <b>My Submitted Cases</b> to search and filter their own submissions and open a case to view its details and activity."
+  },
+  {
+    keys:["hr notes","hr official notes","follow up","follow-up"],
+    answer:"HR can record an official note/directive and a follow-up target date when reviewing a case. These fields help document the next step and maintain the case record."
+  },
+  {
+    keys:["export","csv","download cases"],
+    answer:"Use <b>Export CSV</b> to download the case list for reporting. The portal also provides a <b>JSON backup</b> for preserving the local browser data."
+  },
+  {
+    keys:["backup","json","restore"],
+    answer:"JSON backup is intended to preserve the portal's local case data. Remember that this version stores data in the browser, so it is not a shared enterprise database."
+  },
+  {
+    keys:["who can see","access","manager access","hr access"],
+    answer:"Managers are scoped to their own submitted cases. HR users can review the broader case queue. This prototype uses client-side demo authentication, so it should not be treated as production security."
+  },
+  {
+    keys:["github","pages","deploy","404"],
+    answer:"The portal is designed for GitHub Pages. The repository root should contain <b>index.html</b>. GitHub Pages should be configured to deploy the main branch from the repository root."
+  },
+  {
+    keys:["data","local storage","shared","another computer","database"],
+    answer:"This GitHub Pages version uses browser localStorage. That means data is local to the browser/device and is not automatically shared with another user's browser. A real shared HR system needs a backend database and proper authentication."
+  },
+  {
+    keys:["privacy","confidential","personal data","employee data"],
+    answer:"Do not enter confidential employee information into this static prototype. For production HR use, connect the portal to a controlled backend with authentication, access permissions, audit logging and appropriate data protection controls."
+  },
+  {
+    keys:["hello","hi","hey","help"],
+    answer:"Hi! I'm <b>HR Assist</b>. I can guide you through submitting cases, status meanings, PIP workflow, HR review, follow-up, exports, access and GitHub Pages setup."
+  }
+];
+
+function normaliseHRQuestion(q){
+  return q.toLowerCase().replace(/[^\w\s-]/g," ").replace(/\s+/g," ").trim();
+}
+function getHRAssistAnswer(question){
+  const q=normaliseHRQuestion(question);
+  if(!q) return "Please type a question and I'll help guide you.";
+  let best=null,bestScore=0;
+  HR_ASSIST_FAQ.forEach(item=>{
+    let score=0;
+    item.keys.forEach(k=>{
+      const key=normaliseHRQuestion(k);
+      if(q.includes(key)) score += key.length > 8 ? 4 : 2;
+      key.split(" ").forEach(word=>{if(word.length>3 && q.includes(word)) score += 0.5});
+    });
+    if(score>bestScore){bestScore=score;best=item}
+  });
+  if(best && bestScore>=2) return best.answer;
+  return "I can help with <b>case submission, manager justification, status meanings, PIP guidance, HR review, follow-up dates, CSV/JSON export, access, privacy, and GitHub Pages setup</b>. Try asking one of those.";
+}
+function addHRAssistMessage(text,type){
+  const body=document.getElementById("hrAssistBody");
+  if(!body)return;
+  const div=document.createElement("div");
+  div.className="hr-msg "+type;
+  div.innerHTML='<span class="hr-msg-label">'+(type==="ai"?"HR Assist":"You")+'</span>'+text;
+  body.appendChild(div);body.scrollTop=body.scrollHeight;
+}
+function showHRAssistSuggestions(){
+  const body=document.getElementById("hrAssistBody");
+  if(!body)return;
+  const div=document.createElement("div");
+  div.className="hr-suggestions";
+  [
+    "How do I submit a case?",
+    "What should I write in justification?",
+    "What does Pending Review mean?",
+    "When should I use PIP?",
+    "How does HR review a case?",
+    "How do I export cases?"
+  ].forEach(q=>{
+    const b=document.createElement("button");b.type="button";b.className="hr-suggestion";b.textContent=q;
+    b.onclick=()=>askHRAssist(q);div.appendChild(b);
+  });
+  body.appendChild(div);
+}
+function askHRAssist(question){
+  const input=document.getElementById("hrAssistInput");
+  if(input)input.value="";
+  addHRAssistMessage(question,"user");
+  setTimeout(()=>addHRAssistMessage(getHRAssistAnswer(question),"ai"),180);
+}
+function toggleHRAssist(){
+  const panel=document.getElementById("hrAssistPanel");
+  if(!panel)return;
+  const open=panel.style.display!=="none";
+  panel.style.display=open?"none":"flex";
+  if(!open && !panel.dataset.started){
+    panel.dataset.started="1";
+    addHRAssistMessage("Hi! I'm <b>HR Assist</b>. I can guide you through this portal and common HR workflow questions. What do you need help with?","ai");
+    showHRAssistSuggestions();
+  }
+  if(!open)setTimeout(()=>document.getElementById("hrAssistInput")?.focus(),50);
+}
+document.addEventListener("submit",e=>{
+  if(e.target.id!=="hrAssistForm")return;
+  e.preventDefault();
+  const input=document.getElementById("hrAssistInput");
+  const q=input?.value.trim();
+  if(q)askHRAssist(q);
+});
 
 /* Initialisation */
 load();render();
